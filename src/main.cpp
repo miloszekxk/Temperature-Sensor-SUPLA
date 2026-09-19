@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <WiFi.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
@@ -48,6 +49,8 @@ unsigned long czasWcisniecia = 0;
 bool trybKonfig = false; 
 
 void setup() {
+  setCpuFrequencyMhz(80);
+
   Serial.begin(115200);
 
   pinMode(BUTTON_PIN, INPUT_PULLUP);
@@ -72,6 +75,8 @@ void setup() {
   cisnieniomierz = new Supla::Sensor::GeneralPurposeMeasurement();
 
   SuplaDevice.begin();
+
+  WiFi.setSleep(true); 
 
   czasPobudki = millis();
 }
@@ -143,4 +148,6 @@ void loop() {
       ekranWlaczony = false;
     }
   }
+
+  delay(10); // oddaje CPU na chwilę zamiast kręcić pętlą na pełnych obrotach
 }
