@@ -11,6 +11,8 @@
 
 > Inteligentna, bezprzewodowa stacja pogodowa mierząca temperaturę oraz ciśnienie atmosferyczne. Dane wyświetlane są na lokalnym ekranie OLED oraz przesyłane bezpośrednio do chmury **Supla**.
 
+<img src="docs/img/stacja.jpg" alt="Stacja meteo: ESP32, ekran OLED i czujnik BMP280 na płytce stykowej" width="720">
+
 </div>
 
 ---
@@ -46,6 +48,10 @@ Projekt wyróżnia się zastosowaniem **Trybu Konfiguracyjnego (Captive Portal)*
 
 Zarówno ekran, jak i czujnik korzystają z magistrali I2C, co pozwala na ich równoległe podłączenie do tych samych pinów mikrokontrolera:
 
+<p align="center">
+  <img src="docs/img/polaczenia.jpg" alt="Widok z góry: połączenia ESP32, ekranu OLED i czujnika na płytce stykowej" width="640">
+</p>
+
 | Pin ESP32 | ➡️ | Moduł BMP280 | Moduł OLED |
 | :---: | :---: | :---: | :---: |
 | **3.3V** | ➡️ | VCC | VCC |
@@ -62,13 +68,13 @@ Projekt został przygotowany dla środowiska **Visual Studio Code** ze skonfigur
 
 ### 2. Plik konfiguracyjny `platformio.ini`
 Plik jest już gotowy, nie trzeba go zmieniać. Warto wiedzieć, co w nim jest:
-* `board_build.partitions = huge_app.csv` – większa partycja na program, bo interfejs WWW zajmuje sporo miejsca.
-* **Przypięte wersje** platformy i bibliotek – dzięki temu projekt za rok skompiluje się tak samo jak dziś. Aktualizację bibliotek najlepiej robić świadomie, zmieniając numer wersji.
+* `board_build.partitions = huge_app.csv` - większa partycja na program, bo interfejs WWW zajmuje sporo miejsca.
+* **Przypięte wersje** platformy i bibliotek - dzięki temu projekt za rok skompiluje się tak samo jak dziś. Aktualizację bibliotek najlepiej robić świadomie, zmieniając numer wersji.
 
 ### 3. Wgrywanie (Krok po kroku)
 1. Podłącz ESP32 do komputera za pomocą przewodu obsługującego transmisję danych.
 2. **Tylko przy pierwszym wgraniu na nową płytkę** zaleca się wyczyszczenie układu opcją **`Erase Flash`** w menu PlatformIO.
-   > ⚠️ `Erase Flash` kasuje też konfigurację i identyfikator urządzenia w Supli – po nim stacja pojawi się w chmurze jako nowe urządzenie. Przy aktualizacji działającej stacji pomiń ten krok.
+   > ⚠️ `Erase Flash` kasuje też konfigurację i identyfikator urządzenia w Supli - po nim stacja pojawi się w chmurze jako nowe urządzenie. Przy aktualizacji działającej stacji pomiń ten krok.
 3. Skompiluj i wgraj oprogramowanie przyciskiem **`Upload`**.
 
 ---
@@ -78,7 +84,7 @@ Plik jest już gotowy, nie trzeba go zmieniać. Warto wiedzieć, co w nim jest:
 Zanim połączysz stację ze swoim domowym Wi-Fi, musisz przygotować serwer na przyjęcie nowego sprzętu.
 
 1. Zaloguj się na swoje konto przez przeglądarkę na stronie [cloud.supla.org](https://cloud.supla.org).
-2. Na stronie głównej lub w zakładce *Moja Supla* **włącz "Rejestrację urządzeń"** (odpowiedni przełącznik/suwak musi zaświecić się na zielono). **To kluczowy krok – bez tego serwer odrzuci połączenie z nową stacją!**
+2. Na stronie głównej lub w zakładce *Moja Supla* **włącz "Rejestrację urządzeń"** (odpowiedni przełącznik/suwak musi zaświecić się na zielono). **To kluczowy krok - bez tego serwer odrzuci połączenie z nową stacją!**
 3. Zlokalizuj i skopiuj **Adres serwera**, do którego przypisane jest Twoje konto (np. `svr12.supla.org`). Będzie on potrzebny w kolejnym kroku.
 
 ---
@@ -89,7 +95,7 @@ Gdy urządzenie ma wgrany kod i serwer Supli jest gotowy, przejdź do podłącze
 
 1. Włącz ESP32 do zasilania. Przy pierwszym uruchomieniu (brak konfiguracji) **tryb konfiguracji włączy się sam**. Później możesz go włączyć, przytrzymując przycisk **BOOT** (GPIO 0) przez ok. **5 sekund**.
 2. Na ekranie OLED pojawi się komunikat **"TRYB KONFIGURACJI"** wraz z nazwą sieci Wi-Fi, którą nadaje stacja.
-3. Na swoim smartfonie połącz się z tą otwartą siecią – jej nazwa zaczyna się od **`SUPLA-METEO-`**.
+3. Na swoim smartfonie połącz się z tą otwartą siecią - jej nazwa zaczyna się od **`SUPLA-METEO-`**.
 4. Otwórz przeglądarkę internetową (najlepiej w trybie Incognito / Karcie prywatnej) i wpisz adres panelu sterowania:
    👉 **`http://192.168.4.1`**
 5. Wypełnij wyświetlony formularz:
@@ -98,6 +104,12 @@ Gdy urządzenie ma wgrany kod i serwer Supli jest gotowy, przejdź do podłącze
    * Podaj zlokalizowany wcześniej **adres serwera** (np. `svrX.supla.org`).
    * Wpisz **wysokość n.p.m.** miejsca, w którym stoi stacja (w metrach, można ją sprawdzić np. w Mapach Google lub na geoportal.gov.pl). Zostaw `0`, jeśli chcesz ciśnienie bezwzględne, bez przeliczania.
 6. Kliknij **`Save & Restart`**.
+
+<p align="center">
+  <img src="docs/img/konfiguracja-www-1.png" alt="Strona konfiguracji: informacje o urządzeniu i ustawienia Wi-Fi" width="300">
+  &nbsp;
+  <img src="docs/img/konfiguracja-www-2.png" alt="Strona konfiguracji: ustawienia Supla i wysokość n.p.m." width="300">
+</p>
 
 Gotowe! Twoja stacja zrestartuje się, połączy z siecią domową i po chwili automatycznie pojawi w aplikacji Supla na Twoim smartfonie. Od tego momentu możesz wyłączyć "Rejestrację urządzeń" w chmurze Supla.
 
@@ -110,6 +122,12 @@ Gotowe! Twoja stacja zrestartuje się, połączy z siecią domową i po chwili a
 | **0** | Termometr | °C |
 | **1** | Czujnik ciśnienia | hPa |
 
+<p align="center">
+  <img src="docs/img/aplikacja.png" alt="Aplikacja Supla: kanały termometru i czujnika ciśnienia" width="350">
+  &nbsp;
+  <img src="docs/img/wykres.png" alt="Aplikacja Supla: wykres temperatury z ostatnich 7 dni" width="300">
+</p>
+
 ---
 
 ## 🔘 Obsługa przycisku BOOT
@@ -121,13 +139,17 @@ Gotowe! Twoja stacja zrestartuje się, połączy z siecią domową i po chwili a
 | jest w trybie konfiguracji | krótkie naciśnięcie | wyjście z trybu konfiguracji i restart |
 | jest w trybie konfiguracji | przytrzymanie ~5 s | ⚠️ **reset do ustawień fabrycznych** (kasuje Wi-Fi i dane Supli) |
 
+| Normalna praca | Tryb konfiguracji |
+| :---: | :---: |
+| <img src="docs/img/ekran-pomiary.jpg" alt="Ekran OLED: temperatura, ciśnienie i stan połączenia z Supla" width="320"> | <img src="docs/img/ekran-konfiguracja.jpg" alt="Ekran OLED w trybie konfiguracji: nazwa sieci i adres 192.168.4.1" width="320"> |
+
 ---
 
 ## 🔄 Aktualizacja z wersji 1.x
 
 Wersja 2.0 zmienia typ kanału ciśnienia z „pomiaru ogólnego” na właściwy **czujnik ciśnienia** (z jednostką hPa i przeliczaniem do poziomu morza). Po wgraniu nowej wersji:
 
-1. Na ekranie może pojawić się **"Konflikt kanalow!"** – chmura Supla widzi, że kanał nr 1 zmienił typ.
+1. Na ekranie może pojawić się **"Konflikt kanalow!"** - chmura Supla widzi, że kanał nr 1 zmienił typ.
 2. Wejdź na [cloud.supla.org](https://cloud.supla.org), otwórz urządzenie i potwierdź zmianę kanału zgodnie z komunikatem w chmurze. Historia starego kanału ciśnienia nie przejdzie na nowy kanał. Kanał temperatury się nie zmienia.
 3. Przy pierwszym wejściu w tryb konfiguracji uzupełnij **wysokość n.p.m.**
 4. Nazwa sieci konfiguracyjnej zmieniła się z `SUPLA-ESP32-…` na `SUPLA-METEO-…`.
@@ -148,4 +170,4 @@ Poprzednia wersja jest zachowana w repozytorium na gałęzi `oszczedzanie-energi
 
 ---
 ## 📝 Licencja
-Projekt udostępniony na licencji MIT – możesz go dowolnie używać, modyfikować i rozpowszechniać, także w zastosowaniach komercyjnych, pod warunkiem zachowania informacji o autorze i licencji. Szczegóły w pliku [LICENSE](LICENSE).
+Projekt udostępniony na licencji MIT - możesz go dowolnie używać, modyfikować i rozpowszechniać, także w zastosowaniach komercyjnych, pod warunkiem zachowania informacji o autorze i licencji. Szczegóły w pliku [LICENSE](LICENSE).
