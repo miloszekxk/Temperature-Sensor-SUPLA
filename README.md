@@ -8,6 +8,7 @@
 ![IDE](https://img.shields.io/badge/IDE-PlatformIO-orange?style=for-the-badge&logo=platformio)
 ![Language](https://img.shields.io/badge/Language-C++-00599C?style=for-the-badge&logo=c%2B%2B)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
+[![Build](https://img.shields.io/github/actions/workflow/status/miloszekxk/Temperature-Sensor-SUPLA/build.yml?branch=main&style=for-the-badge&label=Build)](https://github.com/miloszekxk/Temperature-Sensor-SUPLA/actions/workflows/build.yml)
 
 > Inteligentna, bezprzewodowa stacja pogodowa mierząca temperaturę oraz ciśnienie atmosferyczne. Dane wyświetlane są na lokalnym ekranie OLED oraz przesyłane bezpośrednio do chmury **Supla**.
 
@@ -102,6 +103,7 @@ Gdy urządzenie ma wgrany kod i serwer Supli jest gotowy, przejdź do podłącze
    * Wybierz z listy lub wpisz nazwę swojej **domowej sieci Wi-Fi** i podaj do niej hasło.
    * Wpisz **adres e-mail** powiązany z Twoim kontem Supla.
    * Podaj zlokalizowany wcześniej **adres serwera** (np. `svrX.supla.org`).
+   * W polu **Certificate verification** wybierz **`Supla CA`**. Połączenie z chmurą będzie wtedy szyfrowane i sprawdzane, czy na pewno łączysz się z prawdziwym serwerem Supla. Opcji „Skip certificate verification (INSECURE)” używaj tylko tymczasowo, gdyby połączenie nie działało.
    * Wpisz **wysokość n.p.m.** miejsca, w którym stoi stacja (w metrach, można ją sprawdzić np. w Mapach Google lub na geoportal.gov.pl). Zostaw `0`, jeśli chcesz ciśnienie bezwzględne, bez przeliczania.
 6. Kliknij **`Save & Restart`**.
 
@@ -169,5 +171,13 @@ Poprzednia wersja jest zachowana w repozytorium na gałęzi `oszczedzanie-energi
 * **Wgrywanie kończy się błędem połączenia:** niektóre płytki nie radzą sobie z szybkim wgrywaniem. Zmień w `platformio.ini` wartość `upload_speed` z `921600` na `115200`.
 
 ---
+
+## 🗺️ Plany na przyszłość
+
+* [ ] **Obudowa drukowana w 3D.** Obecnie układ jest złożony na płytce stykowej, co sprawdza się przy prototypie, ale przewody mogą się poluzować. Docelowo elementy trafią na lutowaną płytkę w obudowie wydrukowanej w 3D.
+* [ ] **Czujnik odseparowany od ESP32.** Pracujący ESP32 się nagrzewa, a czujnik stojący tuż obok pokazuje przez to zawyżoną temperaturę. W obudowie czujnik znajdzie się w osobnej, wentylowanej komorze (albo na zewnątrz, na przewodzie), żeby mierzył temperaturę otoczenia, a nie płytki.
+
+---
+
 ## 📝 Licencja
 Projekt udostępniony na licencji MIT - możesz go dowolnie używać, modyfikować i rozpowszechniać, także w zastosowaniach komercyjnych, pod warunkiem zachowania informacji o autorze i licencji. Szczegóły w pliku [LICENSE](LICENSE).
